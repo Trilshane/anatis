@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "288377663613",
+    "project_id": "anatisv2",
+    "storage_bucket": "anatisv2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288377663613:android:1a85bee4717e5cbe714114",
+        "android_client_info": {
+          "package_name": "com.trilshane1.Anatis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE8sT0WIuQ8q_AMKIFPOPfCd6uhau92gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288377663613:android:367974e252700c53714114",
+        "android_client_info": {
+          "package_name": "tj.anatis.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE8sT0WIuQ8q_AMKIFPOPfCd6uhau92gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288377663613:android:52f710850fe17ce9714114",
+        "android_client_info": {
+          "package_name": "tj.anatismobile.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE8sT0WIuQ8q_AMKIFPOPfCd6uhau92gg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
