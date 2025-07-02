@@ -25,7 +25,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="anatis"/>
-        <data android:scheme="tj.anatismobile.app"/>
       </intent-filter>
     </activity>
   </application>

@@ -1,4 +1,5 @@
-import React from "react";
+import { useEffect } from "react";
+import { BackHandler } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 // import { Stack } from "expo-router/stack";
@@ -29,7 +30,7 @@ export default function StackNavigator() {
       ref={navigationRef}
       independent={true}
     >
-      <Stack.Navigator headerMode="float" screenOptions={screenOptions}>
+      <Stack.Navigator headerMode="screen" screenOptions={screenOptions}>
         <Stack.Screen name="Index" component={IndexScreen} />
         <Stack.Screen
           name="Catalog"

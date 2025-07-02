@@ -134,6 +134,7 @@ export default Header = ({ navigation, route, progress, options }) => {
             <Image source={require("../assets/images/logo.png")} />
           </View>
         )}
+
         {progress.previous && (
           <TouchableOpacity
             onPress={navigation.goBack}
