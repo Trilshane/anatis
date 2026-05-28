@@ -43,7 +43,6 @@ const ModalPicker = ({ appState, hideModalPicker }) => {
       isVisible={isModalPickerVisible}
       onBackdropPress={() => hideModalPicker()}
       onBackButtonPress={() => hideModalPicker()}
-      //
       style={modalStyles.modal}
       backdropColor={modalBackdropColor}
       backdropOpacity={modalBackdropOpacity}

@@ -8,8 +8,11 @@ import React, {
 import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
-import { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
-// import TextInputMask from 'react-native-text-input-mask'
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 import MaskInput from "react-native-mask-input";
 
 import {
@@ -37,29 +40,22 @@ const ModalLoginV2 = ({
 }) => {
   const modalRef = useRef(null);
 
-  const snapPoints = useMemo(() => [608], []);
-
-  // useEffect(() => {
-  //   presentModal()
-  // }, [])
+  const snapPoints = useMemo(() => ["85%"], []);
 
   const closeModal = useCallback(() => {
     modalRef.current?.close();
   }, []);
 
   const presentModal = useCallback(() => {
-    modalRef.current?.present();
+    setTimeout(() => {
+      modalRef.current?.present();
+    }, 0);
   }, []);
 
-  // const onAnimateModalSnap = useCallback((fromIndex, toIndex) => {
-  //   // console.log('onAnimateModalSnap', fromIndex, toIndex)
-  // }, [])
-
   const onChangeModalSnap = useCallback((index) => {
-    // console.log('handleSheetChanges', index)
     if (index === -1) {
       setTimeout(() => {
-        hideModalLogin();
+        // hideModalLogin();
       }, 1);
     }
   }, []);
@@ -74,7 +70,7 @@ const ModalLoginV2 = ({
         style={modalStyles.modal_backdrop}
       />
     ),
-    []
+    [],
   );
 
   const HandleComponent = () => {
@@ -84,10 +80,6 @@ const ModalLoginV2 = ({
       </View>
     );
   };
-
-  // Custom
-  // Custom
-  // Custom
 
   const navigation = useNavigation();
 
@@ -111,17 +103,26 @@ const ModalLoginV2 = ({
   }, [loginSmsResponse]);
 
   useEffect(() => {
+    if (!isModalLoginVisible) {
+      modalRef.current?.dismiss();
+      return;
+    }
+
+    resetLocalState();
+    resetLoginSmsResponse();
+
+    setTimeout(() => {
+      modalRef.current?.present();
+    }, 50);
+  }, [isModalLoginVisible]);
+
+  useEffect(() => {
+    if (!modalRef.current) return;
+
     if (isModalLoginVisible) {
-      resetLocalState();
-      resetLoginSmsResponse();
-      presentModal();
-    } else {
-      closeModal();
-      if (isModalLoginShownAtOrder) {
-        // noinspection JSUnresolvedFunction
-        navigation.pop();
-        setModalLoginShownAtOrder(false);
-      }
+      setTimeout(() => {
+        modalRef.current?.present();
+      }, 0);
     }
   }, [isModalLoginVisible]);
 
@@ -144,17 +145,22 @@ const ModalLoginV2 = ({
   };
 
   const submitSmsCode = () => {
+    console.log("SMS SUBMIT:", phone, smsCode);
     postLoginSms({ phone, smsCode });
   };
 
   return (
     <BottomSheetModal
+      key={isModalLoginVisible ? "open" : "closed"}
+      enablePanDownToClose
+      enableDynamicSizing={false}
       backdropComponent={BackdropComponent}
       handleComponent={HandleComponent}
       ref={modalRef}
-      index={0}
       snapPoints={snapPoints}
-      onChange={onChangeModalSnap}
+      onDismiss={() => {
+        hideModalLogin();
+      }}
     >
       <View style={styles.container}>
         <Text style={modalStyles.modal_header}>Вход</Text>

@@ -3,7 +3,7 @@
     "name": "Anatis",
     "slug": "anatis",
     "scheme": "anatis",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "orientation": "portrait",
     "icon": "./assets/images/icon_1024.png",
     "userInterfaceStyle": "light",
@@ -12,10 +12,21 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "packagerOpts": {
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx"
+      ],
+      "config": "metro.config.js"
+    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "tj.anatis.app",
-      "buildNumber": "133",
+      "buildNumber": "134",
       "infoPlist": {
         "CFBundleDisplayName": "Anatis"
       }
@@ -45,10 +56,15 @@
           "android": {
             "minSdkVersion": 24,
             "compileSdkVersion": 36,
-            "targetSdkVersion": 36
+            "targetSdkVersion": 36,
+            "newArchEnabled": true
+          },
+          "ios": {
+            "newArchEnabled": true
           }
         }
       ]
-    ]
+    ],
+    "owner": "trilshane1"
   }
 }

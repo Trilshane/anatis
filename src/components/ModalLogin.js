@@ -3,7 +3,6 @@ import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import Modal from "react-native-modal";
-// import { Field, reduxForm } from 'redux-form'
 import { Form, Field } from "react-final-form";
 
 import {
@@ -79,12 +78,9 @@ const ModalLogin = ({
       onBackdropPress={() => handleHideModal()}
       onBackButtonPress={() => handleHideModal()}
       avoidKeyboard={true}
-      //
       style={modalStyles.modal}
       backdropColor={modalBackdropColor}
       backdropOpacity={modalBackdropOpacity}
-      // useNativeDriver={true}
-      //
       propagateSwipe={true}
       swipeDirection={"down"}
       onSwipeComplete={() => handleHideModal()}

@@ -3,8 +3,8 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { setCustomText } from "react-native-global-props";
 import { Provider } from "react-redux";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import store from "./src/redux/store";
 
@@ -27,12 +27,12 @@ export default function App() {
   if (fontsIsLoaded) {
     return (
       <Provider store={store}>
-        <GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
           <BottomSheetModalProvider>
             <StackNavigator />
+            <PushNotifications />
+            <StatusBar style="dark" />
           </BottomSheetModalProvider>
-          <PushNotifications />
-          <StatusBar style="dark" />
         </GestureHandlerRootView>
       </Provider>
     );

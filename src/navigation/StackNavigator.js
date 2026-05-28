@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BackHandler } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 // import { Stack } from "expo-router/stack";
 
@@ -17,7 +17,7 @@ import * as Linking from "expo-linking";
 const prefix = Linking.createURL("");
 const success = Linking.createURL("payment_success");
 const error = Linking.createURL("payment_error");
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function StackNavigator() {
   const linking = {

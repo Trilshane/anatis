@@ -23,26 +23,6 @@ const PushNotifications = ({ postDeviceToken }) => {
   const responseListener = useRef();
 
   useEffect(() => {
-    // registerForPushNotificationsAsync().then((token) => {
-    //   setExpoPushToken(token)
-    //   setTimeout(() => {
-    //     postDeviceToken({token})
-    //   }, 3000)
-    // })
-
-    // notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-    //   setNotification(notification)
-    // })
-
-    // responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-    //   console.log(response)
-    // })
-
-    // return () => {
-    //   Notifications.removeNotificationSubscription(notificationListener.current)
-    //   Notifications.removeNotificationSubscription(responseListener.current)
-    // }
-
     registerForPushNotificationsAsync().then((token) => {
       token && setExpoPushToken(token);
       setTimeout(() => {
@@ -52,7 +32,7 @@ const PushNotifications = ({ postDeviceToken }) => {
 
     if (Platform.OS === "android") {
       Notifications.getNotificationChannelsAsync().then((value) =>
-        setChannels(value ?? [])
+        setChannels(value ?? []),
       );
     }
     notificationListener.current =
@@ -66,21 +46,12 @@ const PushNotifications = ({ postDeviceToken }) => {
       });
 
     return () => {
-      notificationListener.current &&
-        Notifications.removeNotificationSubscription(
-          notificationListener.current
-        );
-      responseListener.current &&
-        Notifications.removeNotificationSubscription(responseListener.current);
+      notificationListener.current && notificationListener.current.remove();
+      responseListener.current && notificationListener.current.remove();
     };
   }, []);
 
-  return (
-    // <View style={{marginVertical: 20, borderColor: 'red', borderWidth: 1}}>
-    //   <TextInput style={{textAlign: 'center'}} value={expoPushToken} />
-    // </View>
-    <></>
-  );
+  return <></>;
 };
 
 const mapDispatchToProps = {
