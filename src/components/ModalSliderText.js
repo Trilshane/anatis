@@ -37,7 +37,6 @@ const ModalSliderText = ({ appState, hideModalSliderText }) => {
       isVisible={appState.isModalSliderTextVisible}
       onBackdropPress={() => hideModalSliderText()}
       onBackButtonPress={() => hideModalSliderText()}
-      //
       style={modalStyles.modal}
       backdropColor={modalBackdropColor}
       backdropOpacity={modalBackdropOpacity}
@@ -75,7 +74,6 @@ const ModalSliderText = ({ appState, hideModalSliderText }) => {
           />
           <LinearGradient
             colors={["rgba(255,255,255,0)", "rgba(255,255,255,1)"]}
-            // colors={['red', 'rgba(255,255,255,1)']}
             style={modalStyles.modalProduct_bottomGradient}
             start={[0, 0]}
             end={[0, 1]}
