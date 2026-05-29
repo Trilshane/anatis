@@ -14,7 +14,6 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { connect, useDispatch, useSelector } from "react-redux";
-// import TextInputMask from "react-native-text-input-mask";
 import { Picker } from "@react-native-picker/picker";
 import { Form, Field } from "react-final-form";
 
@@ -100,13 +99,12 @@ const OrderScreen = ({
   useEffect(() => {
     getDateTime();
     getStorageData("phone").then((login) => setUserLogin(login));
-    // initialize(order)
   }, []);
 
   useEffect(() => {
     if (historyList.length > 0) {
       const [newOrder, newOrderPayment] = getOrderDataFromHistory(
-        historyList[0]
+        historyList[0],
       );
       dispatch(setOrder(newOrder));
       dispatch(setOrderPayment(newOrderPayment));
@@ -180,7 +178,7 @@ const OrderScreen = ({
     (item) =>
       item.ID &&
       Object.keys(queue).includes(item.ID.toString()) &&
-      queue[item.ID].quantity > 0
+      queue[item.ID].quantity > 0,
   );
 
   const handleLoginClick = () => {
@@ -206,11 +204,6 @@ const OrderScreen = ({
     values.time = orderTime;
     values.payment = orderPayment;
 
-    // basketPrice + bottlesPrice = totalPrice
-    // Стоимость за возвратные бутыли считается в приложении методом
-    // (кол-во заказанных бутылей минус количество возвратных) * на стоимость бутыли
-    // Отправляется в "bottlesPrice"
-    // (с) Юра
     values.basketPrice = basketPrice;
     values.bottles = returnedBottles;
     values.bottlesPrice =
@@ -287,8 +280,6 @@ const OrderScreen = ({
             />
           </View>
         </ScrollView>
-        {/*<ModalOrderDate />*/}
-        {/*<ModalOrderTime />*/}
         <FullscreenLoading />
         <ModalPicker />
       </KeyboardAvoidingView>
@@ -561,8 +552,6 @@ const Card2 = () => {
             </Picker>
           </View>
         )}
-
-        {/*<InputBlock placeholder={'с 9:00 до 13:00'} colStyle={styles.textInput_col2} />*/}
       </View>
     </View>
   );
@@ -577,41 +566,30 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
   const [orderPaymentLabel, setOrderPaymentLabel] = useState("");
   const dispatch = useDispatch();
   console.log("orderPayment", orderPayment);
-  useEffect(() => {}, [handleSubmitClick]);
-
-  // const orderPaymentLabel = pickerPropsPayment.filter(
-  //   (paymentItem) => paymentItem.value === orderPayment
-  // ).label;
 
   useEffect(() => {
     setOrderPaymentLabel(
       pickerPropsPayment.filter(
-        (paymentItem) => paymentItem.value == orderPayment
-      )[0]
+        (paymentItem) => paymentItem.value == orderPayment,
+      )[0],
     );
     console.log("orderPaymentLabel", orderPaymentLabel);
   }, ["", orderPayment]);
-  useEffect(() => {
-    const orderArray = Object.values(queue);
-    for (let i = 0; i < orderArray.length; i++) {
-      if (orderArray[i]["quantity"] !== 0 && orderArray[i]["reusable"]) {
-        setReusable(true);
-        break;
-      }
-    }
-  }, ["", queue]);
 
   const queue = useSelector((state) => state.order.queue);
 
   useEffect(() => {
     const orderArray = Object.values(queue);
+    let reusableCount = 0;
+
     for (let i = 0; i < orderArray.length; i++) {
-      if (orderArray[i]["quantity"] !== 0 && orderArray[i]["reusable"]) {
-        setReusable(true);
-        break;
+      const item = orderArray[i];
+      if (item.quantity > 0 && item.reusable) {
+        reusableCount += item.quantity;
       }
     }
-  }, ["", queue]);
+    setReusable(reusableCount >= 2);
+  }, [queue]);
 
   const handleAlifPayment = () => {
     const dataObj = {
@@ -733,7 +711,8 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
               setOrder(true);
             } else {
               Alert.alert(
-                "Заказ должен быть больше 100 сом., либо с бутылью 19л"
+                "Минимальная сумма заказа — 100 сом",
+                "Либо 2 и более бутылей тары (19л)",
               );
             }
           }}
@@ -755,7 +734,6 @@ const InputBlock = ({
   meta,
 }) => {
   let style = [styles.textInput, colStyle];
-  // if (touched && error) style.push(styles.textInput_error)
   if (meta.touched && meta.error) style.push(styles.textInput_error);
 
   return (
@@ -768,15 +746,12 @@ const InputBlock = ({
         style={style}
         {...input}
       />
-      {/*{touched && ((error && <Text>E {error}</Text>) || (warning && <Text>W {warning}</Text>))}*/}
-      {/*{meta.error && meta.touched && <Text>{meta.error}</Text>}*/}
     </>
   );
 };
 
 const InputPhoneBlock = ({ colStyle, input, meta }) => {
   let style = [styles.textInput, colStyle];
-  // if (touched && error) style.push(styles.textInput_error)
   if (meta.touched && meta.error) style.push(styles.textInput_error);
 
   return (
@@ -789,8 +764,6 @@ const InputPhoneBlock = ({ colStyle, input, meta }) => {
         style={style}
         {...input}
       />
-      {/*{touched && ((error && <Text>E {error}</Text>) || (warning && <Text>W {warning}</Text>))}*/}
-      {/*{meta.error && meta.touched && <Text>{meta.error}</Text>}*/}
     </>
   );
 };
@@ -830,7 +803,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    // TODO Надо привести это безобразие к виду appState. Не забыть, в сигнатурие OrderScreen сделать то же самое
     appState: state.app,
     historyState: state.history,
     basket: state.order.basket,
@@ -844,10 +816,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-// const ConnectedOrderScreen = connect(mapStateToProps, mapDispatchToProps)(OrderScreen)
 export default connect(mapStateToProps, mapDispatchToProps)(OrderScreen);
-
-// export default reduxForm({
-//   form: 'orderForm',
-//   validate,
-// })(ConnectedOrderScreen)

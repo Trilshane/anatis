@@ -33,15 +33,13 @@ const Slider = ({
   const scrollViewRef = useRef();
 
   useEffect(() => {
-    if (Platform.OS === "ios") {
-      const timer = setTimeout(() => {
-        const sliderNextIndex = getSliderNextIndex();
-        setSliderPosition(sliderNextIndex);
-        setSliderIndex(sliderNextIndex);
-      }, indexSliderDelay);
-      return () => clearTimeout(timer);
-    }
-  }, [sliderIndex]);
+    const timer = setTimeout(() => {
+      const sliderNextIndex = getSliderNextIndex();
+      setSliderPosition(sliderNextIndex);
+      setSliderIndex(sliderNextIndex);
+    }, indexSliderDelay);
+    return () => clearTimeout(timer);
+  }, [sliderIndex, sliderDirection]);
 
   const getSliderNextIndex = () => {
     let sliderNextIndex;
@@ -54,7 +52,7 @@ const Slider = ({
     } else {
       if (sliderDirection === "right") {
         sliderNextIndex = sliderIndex + 1;
-      } else if (sliderDirection === "left") {
+      } else {
         sliderNextIndex = sliderIndex - 1;
       }
     }
@@ -62,7 +60,6 @@ const Slider = ({
   };
 
   const setSliderPosition = (nextIndex) => {
-    // noinspection JSUnresolvedFunction
     scrollViewRef.current.scrollTo({
       x: sliderInterval * nextIndex,
       y: 0,
@@ -73,7 +70,7 @@ const Slider = ({
   const handleSliderClick = (sliderItem) => {
     if (sliderItem["TYPE"] === "product") {
       const product = catalogState.list.filter(
-        (productItem) => productItem.ID === parseInt(sliderItem.ID)
+        (productItem) => productItem.ID === parseInt(sliderItem.ID),
       )[0];
       setModalProduct(product);
       showModalProduct();
@@ -83,13 +80,12 @@ const Slider = ({
     }
   };
 
-  const handleSliderScrollBegin = (event) => {
-    setSliderIndex(-1);
-  };
-
   const handleSliderScrollEnd = (event) => {
     const offset = event.nativeEvent.contentOffset.x;
-    const index = offset / sliderInterval;
+    const index = Math.min(
+      Math.max(Math.round(offset / sliderInterval), 0),
+      sliderList.length - 1,
+    );
     setSliderIndex(index);
   };
 
@@ -99,7 +95,6 @@ const Slider = ({
         contentContainerStyle={indexStyles.sliderImages}
         decelerationRate={"fast"}
         horizontal={true}
-        onMomentumScrollBegin={handleSliderScrollBegin}
         onMomentumScrollEnd={handleSliderScrollEnd}
         pagingEnabled={true}
         ref={scrollViewRef}
@@ -128,24 +123,16 @@ const Slider = ({
 
       <View style={indexStyles.sliderDot}>
         {sliderList.map((item, index) => {
-          if (index === sliderIndex) {
-            return (
-              <View
-                key={"sliderDot_" + index}
-                style={[
-                  indexStyles.sliderDot_item,
-                  indexStyles.sliderDot_itemActive,
-                ]}
-              />
-            );
-          } else {
-            return (
-              <View
-                key={"sliderDot_" + index}
-                style={indexStyles.sliderDot_item}
-              />
-            );
-          }
+          const isActive = index === sliderIndex;
+          return (
+            <View
+              key={"sliderDot_" + index}
+              style={[
+                indexStyles.sliderDot_item,
+                isActive && indexStyles.sliderDot_itemActive,
+              ]}
+            />
+          );
         })}
       </View>
     </View>
