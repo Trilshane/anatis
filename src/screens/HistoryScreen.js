@@ -128,7 +128,6 @@ const HistoryOrderFooter = ({ item }) => {
     dispatch(replaceQueue(newQueue));
     dispatch(setOrder(newOrder));
     dispatch(setOrderPayment(newOrderPayment));
-    // noinspection JSUnresolvedFunction
     navigation.replace("Order");
   };
 

@@ -177,7 +177,7 @@ function* workerPostOrder(action) {
 
 function* workerPostCreatePayment(action) {
   const data = yield call(() =>
-    postRequest(API.postCreatePayment, action.payload)
+    postRequest(API.postCreatePayment, action.payload),
   );
   console.log("workerPostCreatePayment", data);
 
@@ -191,7 +191,7 @@ function* workerPostCreatePayment(action) {
 
 function* workerPostCreatePaymentAlif(action) {
   const data = yield call(() =>
-    postRequest(API.postCreatePaymentAlif, action.payload)
+    postRequest(API.postCreatePaymentAlif, action.payload),
   );
   console.log("workerPostCreatePaymentAlif", data);
 
@@ -207,7 +207,7 @@ function* workerPostCreatePaymentAlif(action) {
 function* workerPostCheckPayment(action) {
   console.log("saga postCheckPayment action.payload", action.payload);
   const data = yield call(() =>
-    postRequest(API.postCheckPayment, action.payload)
+    postRequest(API.postCheckPayment, action.payload),
   );
   console.log("saga postCheckPayment", data);
   if (data.status === "ok") {
@@ -221,7 +221,7 @@ function* workerPostCheckPayment(action) {
 
 function* workerPostAddPromocode(action) {
   const data = yield call(() =>
-    postRequest(API.postAddPromocode, action.payload)
+    postRequest(API.postAddPromocode, action.payload),
   );
   console.log(data);
   if (data.status === "ok") {

@@ -108,7 +108,7 @@ const ModalFilter = ({
               >
                 <Text style={modalStyles.modalSelect_text}>{item}</Text>
               </TouchableOpacity>
-            )
+            ),
           )}
         </ScrollView>
 

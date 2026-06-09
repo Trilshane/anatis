@@ -13,15 +13,23 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "sourceExts": ["expo.ts", "expo.tsx", "ts", "tsx", "js", "jsx"],
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx"
+      ],
       "config": "metro.config.js"
     },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "tj.anatis.app",
-      "buildNumber": "134",
+      "buildNumber": "135",
       "infoPlist": {
-        "CFBundleDisplayName": "Anatis"
+        "CFBundleDisplayName": "Anatis",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {

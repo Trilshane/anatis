@@ -17,7 +17,6 @@ const rootReducer = combineReducers({
   history: historyReducer,
   order: orderReducer,
   payment: paymentReducer,
-  // form: formReducer,
 });
 
 const saga = createSagaMiddleware();
@@ -27,10 +26,10 @@ const store = createStore(
     applyMiddleware(saga),
     window.__REDUX_DEVTOOLS_EXTENSION__
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
-      : compose
-  )
+      : compose,
+  ),
 );
-// const store = createStore(rootReducer, applyMiddleware(saga))
+
 saga.run(sagaWatcher);
 
 export default store;

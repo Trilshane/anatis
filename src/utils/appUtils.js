@@ -4,7 +4,6 @@ export const logOut = async () => {
   try {
     const RCTNetworking =
       require("react-native/Libraries/Network/RCTNetworking").default;
-    // noinspection JSUnresolvedFunction
     RCTNetworking.clearCookies(() => {});
   } catch (error) {
     console.error("Failed to clear cookies");

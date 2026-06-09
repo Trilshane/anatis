@@ -63,7 +63,6 @@ const IndexScreen = ({
     appState.isAuth && historyList.length ? 90 : (insets.bottom || 21) - 16; // 16 из-за product_card marginBottom
 
   const getInitialData = () => {
-    // setStorageData('phone', '+992 (11) 111-11-11')
     getStorageData("phone").then((phone) => {
       if (phone) {
         autoLogin({ phone });

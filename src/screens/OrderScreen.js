@@ -62,6 +62,8 @@ import MaskInput from "react-native-mask-input";
 import { navigationRef } from "../navigation/RootNavigation";
 import { setDataALif } from "../redux/actions/paymentActions";
 
+import { API, getRequest } from "../api";
+
 const OrderScreen = ({
   basket,
   bottlePrice,
@@ -564,8 +566,28 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
   const [paymentValue, setPaymentValue] = useState("");
   const [reusable, setReusable] = useState(false);
   const [orderPaymentLabel, setOrderPaymentLabel] = useState("");
+  const [countBottles, setCountBottles] = useState(0);
+  const [minPrice, setMinPrice] = useState(0);
+  const [isConditionsLoaded, setIsConditionsLoaded] = useState(false);
   const dispatch = useDispatch();
-  console.log("orderPayment", orderPayment);
+
+  useEffect(() => {
+    let isMounted = true;
+    getRequest(API.getOrderConditions).then((response) => {
+      if (isMounted && response.status === "ok") {
+        // Приводим к числу явно
+        const minAmount = Number(response.conditions.MIN_ORDER_AMOUNT);
+        const minBottles = Number(response.conditions.MIN_COUNT_BOTTLES);
+
+        setCountBottles(minBottles);
+        setMinPrice(minAmount);
+        setIsConditionsLoaded(true);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     setOrderPaymentLabel(
@@ -574,7 +596,7 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
       )[0],
     );
     console.log("orderPaymentLabel", orderPaymentLabel);
-  }, ["", orderPayment]);
+  }, [orderPayment]);
 
   const queue = useSelector((state) => state.order.queue);
 
@@ -588,8 +610,9 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
         reusableCount += item.quantity;
       }
     }
-    setReusable(reusableCount >= 2);
-  }, [queue]);
+    console.log("countBotles countBotles countBotles", countBottles);
+    setReusable(reusableCount >= countBottles);
+  }, [queue, countBottles]);
 
   const handleAlifPayment = () => {
     const dataObj = {
@@ -614,7 +637,7 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
 
   useEffect(() => {
     dispatch(setDataALif(payment));
-  }, [setDataALif]);
+  }, [dispatch, payment]);
 
   useEffect(() => {
     if (order) {
@@ -704,22 +727,24 @@ const Card3 = ({ totalPrice, handleSubmitClick }) => {
       </View>
 
       <View style={orderStyles.order_submit}>
-        <TouchableOpacity
-          onPress={() => {
-            if (totalPrice >= 100 || reusable) {
-              handleSubmitClick();
-              setOrder(true);
-            } else {
-              Alert.alert(
-                "Минимальная сумма заказа — 100 сом",
-                "Либо 2 и более бутылей тары (19л)",
-              );
-            }
-          }}
-          style={styles.buttonGreen}
-        >
-          <Text style={styles.buttonGreen_text}>Оформить заказ</Text>
-        </TouchableOpacity>
+        {isConditionsLoaded && (
+          <TouchableOpacity
+            onPress={() => {
+              if (totalPrice >= minPrice || reusable) {
+                handleSubmitClick();
+                setOrder(true);
+              } else {
+                Alert.alert(
+                  `Доставка воды от ${countBottles}-х бутылей`,
+                  `Или при общей сумме заказа не менее ${minPrice} сомони бесплатно.`,
+                );
+              }
+            }}
+            style={styles.buttonGreen}
+          >
+            <Text style={styles.buttonGreen_text}>Оформить заказ</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );

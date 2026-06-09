@@ -7,6 +7,7 @@ export const API = {
   getDateTime: "order/getAvailableTime.php",
   getHistory: "user/getAllOrders.php",
   getSlider: "main/getSlider.php",
+  getOrderConditions: "main/getOrderConditions.php",
   postAddPromocode: "order/usedPromocode.php",
   postCheckPayment: "order/isSuccessfulPayment.php",
   postCreatePayment: "order/doPayment.php",
