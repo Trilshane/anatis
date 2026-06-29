@@ -135,6 +135,7 @@ function* workerPostQueue(action) {
 function* workerPostOrder(action) {
   yield put(showFullscreenLoading());
   const data = yield call(() => postRequest(API.postOrder, action.payload));
+
   if (data.status === "ok") {
     console.log("saga postOrder OK");
     console.log("saga postOrder", data);
